@@ -1,0 +1,653 @@
+body {
+    background: #27292b;
+    
+
+}
+
+#divbody {
+    width: 670px;
+    height: 670px;
+    border: 1px solid black;
+    position: relative;
+    background: #0b0c0e;
+    box-shadow: 0 0 8px #0b0c0e;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 7px;
+}
+
+#luotdi {
+    height: 30px;
+    text-align: center;
+    width: 670px;
+    margin: auto;
+    background: #0b0c0e;
+    box-shadow: 0 0 8px #0b0c0e;
+    border-radius: 10px;
+    border: 1px solid black;
+    color: #cc6205;
+    padding-top: 8px;
+}
+
+#form {
+    
+    width: 650px;
+    height: 100px;
+    
+    border: 1px solid #3c3f42;
+    box-shadow: 0 0 12px #3c3f42;
+    background: #27292b;
+    margin:auto;
+    margin-top: -60px;
+    padding-top: 15px;
+    border-radius: 10px;
+    position: relative;
+    /* display:none; */
+    top:-395px;
+    z-index: 9999;
+    
+}
+
+#formb {
+    width: 636px;
+    height: 86px;
+    color:white;
+    border: 2px solid #0b0c0e;
+    background: #0b0c0e;
+    padding-top: 15px;
+    border-radius: 10px;
+    position: absolute;
+    box-shadow: 0 0 12px #0b0c0e;
+    top: 5px;
+    left: 5px;
+}
+
+#chonmau {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#nguoichoi {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.tieude {
+    text-align: center;
+}
+
+
+#mauv {
+    border: 1px solid yellow;
+    background: yellow;
+    left:20px;
+}
+#maud {
+    border: 1px solid red;
+    background: red;
+    left:80px;
+}
+#mauxl {
+    border: 1px solid green;
+    background: green;
+    left: 140px;
+}
+#mauxd {
+    border: 1px solid blue;
+    background: blue;
+    left: 200px;
+}
+
+.mauchon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+}
+
+.mauchon:hover {
+    cursor: pointer;
+}
+
+#bt {
+    position: absolute;
+    border: 2px solid #8b8b8b;
+    box-shadow: 0 0 7px white;
+    background: #b3b3b3;
+    color: #cc6205;
+    border-radius: 5px;
+    width: 70px;
+    height: 27px;
+    top: 47px;
+    left: 284px;
+    font-size: 15pt;
+    font-weight: 900;
+    text-align: center;
+    padding-top: 5px;
+}
+
+#divbutton {
+    
+   
+    position: relative;
+    
+    width: 150px;
+    height: 30px;
+    border: 2px solid #b3b3b3;
+    box-shadow: 0 0 7px #b3b3b3;
+    background: #0b0c0e;
+    color: #cc6205;
+    border-radius: 5px;
+    margin:auto;
+    margin-top: 20px;
+    font-size: 15pt;
+    font-weight: 900;
+    text-align: center;
+    padding-top: 7px;
+}
+
+#divbutton:hover {
+    box-shadow: 0 0 12px #cc6205;
+    border: 2px solid #cc6205;
+    cursor: pointer;
+    color: #b3b3b3;
+}
+
+#bt:hover {
+    cursor: pointer;
+}
+
+
+
+.oso {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    color: #b3b3b3;
+    border-radius: 5px;
+    font-size: 20pt;
+    top: 50px;
+
+}
+
+.oso:hover {
+    cursor: pointer;
+}
+
+#so1 {
+    right: 200px;
+    
+    box-shadow: 0 0 11px blue;
+    background: rgb(57, 57, 255);
+    text-align: center;
+
+}
+
+#so2 {
+    right: 140px;
+    
+    box-shadow: 0 0 11px green;
+    background: rgb(11, 129, 11);
+    text-align: center;
+
+}
+
+#so3 {
+    right: 80px;
+    
+    box-shadow: 0 0 11px red;
+    background: rgb(252, 63, 63);
+    text-align: center;
+
+}
+
+#so4 {
+    right: 20px;
+    
+    box-shadow: 0 0 11px yellow;
+    background: rgb(252, 252, 54);
+    text-align: center;
+
+}
+
+#contain {
+    width: 650px;
+    height: 650px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#red,
+#yellow,
+#blue,
+#green {
+    width: 230px;
+    height: 230px;
+    position: absolute;
+    border-radius: 10px;
+}
+
+#yellow {
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 8px yellow;
+}
+
+#blue {
+    bottom:0;
+    right: 0;
+    box-shadow: 0 0 8px blue;
+}
+
+#red {
+    top:0;
+    right: 0;
+    box-shadow: 0 0 8px red;
+}
+
+#green {
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 0 8px green;
+}
+
+.oco {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #949393;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.chuong {
+   
+    border-radius: 4px;
+    position: absolute;
+}
+
+.ovang {
+    border: 2px solid yellow;
+}
+
+.oxanhla {
+    border: 2px solid green;
+}
+
+.oxanhduong {
+    border: 2px solid blue;
+}
+
+.odo {
+    border: 2px solid red;
+}
+
+[id='1'],
+[id='56'],
+[id='55'] {
+    top:0;
+}
+[id='2'],
+[id='561'],
+[id='54'] {
+    top:40px;
+}
+
+[id='3'],
+[id='562'],
+[id='53'] {
+    top:80px;
+}
+[id='4'],
+[id='563'],
+[id='52'] {
+    top:120px;
+}
+[id='5'],
+[id='564'],
+[id='51'] {
+    top:160px;
+}
+[id='6'],
+[id='565'],
+[id='50'] {
+    top:200px;
+}
+
+[id='7'],
+[id='8'],
+[id='9'],
+[id='10'],
+[id='11'],
+[id='12'],
+[id='13'],
+[id='566'],
+[id='49'],
+[id='48'],
+[id='47'],
+[id='46'],
+[id='45'],
+[id='44'],
+[id='43'] {
+    top:240px;
+}
+
+[id='14'],
+[id='42'] {
+    top:305px;
+}
+
+[id='15'],
+[id='16'],
+[id='17'],
+[id='18'],
+[id='19'],
+[id='20'],
+[id='21'],
+[id='286'],
+[id='35'],
+[id='36'],
+[id='37'],
+[id='38'],
+[id='39'],
+[id='40'],
+[id='41']{
+    bottom: 240px;
+}
+
+[id='22'],
+[id='285'],
+[id='34'] {
+    bottom: 200px;
+}
+
+[id='23'],
+[id='284'],
+[id='33'] {
+    bottom: 160px;
+}
+
+[id='24'],
+[id='283'],
+[id='32'] {
+    bottom: 120px;
+}
+
+[id='25'],
+[id='282'],
+[id='31'] {
+    bottom: 80px;
+}
+
+[id='26'],
+[id='281'],
+[id='30'] {
+    bottom: 40px;
+}
+
+[id='27'],
+[id='28'],
+[id='29'] {
+    bottom: 0px;
+}
+
+
+[id='12'],
+[id='141'],
+[id='16'] {
+    left: 40px;
+}
+
+[id='11'],
+[id='142'],
+[id='17'] {
+    left: 80px;
+}
+
+[id='10'],
+[id='143'],
+[id='18'] {
+    left: 120px;
+}
+
+[id='9'],
+[id='144'],
+[id='19'] {
+    left: 160px;
+}
+
+[id='8'],
+[id='145'],
+[id='20'] {
+    left: 200px;
+}
+
+
+
+[id='1'],
+[id='2'],
+[id='3'],
+[id='4'],
+[id='5'],
+[id='6'],
+[id='7'],
+[id='146'],
+[id='21'],
+[id='22'],
+[id='23'],
+[id='24'],
+[id='25'],
+[id='26'],
+[id='27'] {
+    left: 240px;
+}
+
+
+
+
+[id='56'],
+[id='286'],
+[id='285'],
+[id='284'],
+[id='283'],
+[id='282'],
+[id='281'],
+[id='28'] {
+    left: 305px;
+}
+
+[id='55'],
+[id='54'],
+[id='53'],
+[id='52'],
+[id='51'],
+[id='50'],
+[id='49'],
+[id='426'],
+[id='35'],
+[id='34'],
+[id='33'],
+[id='32'],
+[id='31'],
+[id='30'],
+[id='29'] {
+    right: 240px;
+}
+
+[id='48'],
+[id='425'],
+[id='36'] {
+    right: 200px;
+}
+
+[id='47'],
+[id='424'],
+[id='37'] {
+    right: 160px;
+}
+
+[id='46'],
+[id='423'],
+[id='38'] {
+    right: 120px;
+}
+
+[id='45'],
+[id='422'],
+[id='39'] {
+    right: 80px;
+}
+
+[id='44'],
+[id='421'],
+[id='40'] {
+    right: 40px;
+}
+
+[id='43'],
+[id='42'],
+[id='41'] {
+    right: 0px;
+}
+
+[id='141'],
+[id='142'],
+[id='143'],
+[id='144'],
+[id='145'],
+[id='146'],
+[id='421'],
+[id='422'],
+[id='423'],
+[id='424'],
+[id='425'],
+[id='426'] {
+    top: 285px;
+}
+
+[id='561'],
+[id='562'],
+[id='563'],
+[id='564'],
+[id='565'],
+[id='566'],
+[id='286'],
+[id='285'],
+[id='284'],
+[id='283'],
+[id='282'],
+[id='281'] {
+    left: 285px;
+}
+
+.chuongngang {
+    width: 80px;
+    height: 30px;
+    
+}
+
+.chuongdoc {
+    width: 30px;
+    height: 80px;
+}
+
+[id='0'] {
+    width: 78px;
+    height: 78px;
+    box-shadow: 0 0 8px white;
+    border-radius: 50%;
+    position: relative;
+    top: 285px;
+    left: 285px;
+    
+}
+
+#xingau {
+    font-size: 40pt;
+    color: rgb(201, 201, 201);
+    position: absolute;
+    top: 7px;
+    left: 27px;
+}
+
+.c1 {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.y {
+    border: 2px solid yellow;
+}
+.b {
+    border: 2px solid blue;
+}
+.r {
+    border: 2px solid red;
+}
+.g {
+    border: 2px solid green;
+}
+
+#y1, #y2, #r1, #r2 {
+    top: 40px;
+}
+#y3, #y4, #r3, #r4 {
+    top: 110px;
+}
+
+#y1, #y3, #g1, #g3 {
+    left: 40px;
+}
+
+#y2, #y4, #g2, #g4 {
+    left: 110px;
+}
+
+#g1, #g2, #b1, #b2 {
+    bottom: 110px;
+}
+#g3, #g4, #b3, #b4 {
+    bottom: 40px;
+}
+
+#r1, #r3, #b1, #b3 {
+    right: 110px;
+}
+
+#r2, #r4, #b2, #b4 {
+    right: 40px;
+}
+
+#chuongxl {
+    color: green;
+    font-size: 20pt;
+    transform: rotate(90deg);
+    text-align: center;
+    margin-top: 25px;
+}
+#chuongd {
+    color: red;
+    font-size: 20pt;
+    transform: rotate(270deg);
+    text-align: center;
+    margin-top: 25px;
+}
+#chuongxd {
+    color: blue;
+    font-size: 20pt;
+    text-align: center;
+    
+}
+
+#chuongv {
+    color: yellow;
+    font-size: 20pt;
+    text-align: center;
+    transform: rotate(180deg);
+    
+}

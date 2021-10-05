@@ -1,0 +1,1127 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="./jquery/jquery.min.js"></script>
+        <link rel="shortcut icon" type="image/x-icon" href="./pic/icon.png">
+        <script>
+            
+        </script>
+        
+    </head>
+
+    <body>
+
+         <div id="luotdi" style='display:none;' >
+            
+        </div>
+
+        <div id="divbody">
+
+        
+
+            <div id="contain">
+                <div id='yellow'></div>
+                <div id='green'></div>
+                <div id='red'></div>
+                <div id='blue'></div>
+
+
+                <?php
+                    for ($i=1;$i<57;$i++) {
+                        if (($i>0 && $i<14) || ($i==56)){
+                            $bd = ' ovang';
+                        }
+                        if (($i>13 && $i<28) ){
+                            $bd = ' oxanhla';
+                        }
+                        if (($i>27 && $i<42) ){
+                            $bd = ' oxanhduong';
+                        }
+                        if (($i>41 && $i<56) ){
+                            $bd = ' odo';
+                        }
+                        echo "<div id='$i' class='oco' onclick='choi(this.id)'></div>";
+                    }
+
+                    for ($i=141;$i<147;$i++) {
+                        $bd = ' oxanhla';
+                        echo "<div id='$i' class='chuong chuongdoc$bd' onclick='choi(this.id)'><div id='chuongxl'>".($i-140)."</div></div>";
+                    }
+                    for ($i=281;$i<287;$i++) {
+                        $bd = ' oxanhduong';
+                        echo "<div id='$i' class='chuong chuongngang$bd' onclick='choi(this.id)'><div id='chuongxd'>".($i-280)."</div></div>";
+                    }
+                    for ($i=421;$i<427;$i++) {
+                        $bd = ' odo';
+                        echo "<div id='$i' class='chuong chuongdoc$bd' onclick='choi(this.id)'><div id='chuongd'>".($i-420)."</div></div>";
+                    }
+                    for ($i=561;$i<567;$i++) {
+                        $bd = ' ovang';
+                        echo "<div id='$i' class='chuong chuongngang$bd' onclick='choi(this.id)'><div id='chuongv'>".($i-560)."</div></div>";
+                    }
+                    
+                    $mau = ['y','r','b','g'];
+
+                    for ($j=0;$j<4;$j++) {
+                        for ($i=1; $i<5; $i++) {
+                            echo "<div id='$mau[$j]$i' class='c1 $mau[$j]' onclick='choi(this.id)'></div>";
+                        }
+                    }
+
+                ?>
+
+                <div id="0" class='xucxac'><b id='xingau'>0</b></div>
+            </div>
+        </div>
+
+        
+        <div id="divbutton" onclick='choilai();'>CHƠI LẠI</div>
+        <div id="form">
+            <div id="formb">
+                <div id='chonmau' class="tieude">CHỌN MÀU ĐI TRƯỚC</div>
+                <div id="mau">
+                    <div id="mauv" class='mauchon' onclick='chonmau(this.id)'></div>
+                    <div id="maud" class='mauchon' onclick='chonmau(this.id)'></div>
+                    <div id="mauxd" class='mauchon' onclick='chonmau(this.id)'></div>
+                    <div id="mauxl" class='mauchon' onclick='chonmau(this.id)'></div>
+                </div>
+                <div id="bt">CHƠI</div>
+                <div id = 'nguoichoi' class="tieude">SỐ NGƯỜI CHƠI</div>
+                    <div id="so1" class='oso' onclick='chonnguoi(this.id)'>1</div>
+                    <div id="so2" class='oso' onclick='chonnguoi(this.id)'>2</div>
+                    <div id="so3" class='oso' onclick='chonnguoi(this.id)'>3</div>
+                    <div id="so4" class='oso' onclick='chonnguoi(this.id)'>4</div>
+            </div>
+        </div>
+        
+    <script>
+
+        var maudi = 0;
+        var kiemtra = 0;
+        var diduoc = 0;
+        var mauchoi = 0;
+        var nguoichoi = 0;
+        var doichoi = [];
+        var doiconlai = [];
+        var xluotdi,so,sob,ketqua ;
+
+        var x = 0, a = 0;
+        
+        var bando = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        
+        var chuongvang = ['y','y','y','y'];
+        var chuongdo = ['r','r','r','r'];
+        var chuongxanhla = ['g','g','g','g'];
+        var chuongxanhduong = ['b','b','b','b'];
+
+        var vechuongvang = [1,1,1,1,1,1];
+        var vechuongdo = [1,1,1,1,1,1];
+        var vechuongxanhla = [1,1,1,1,1,1];
+        var vechuongxanhduong = [1,1,1,1,1,1];
+
+        var quanco = document.getElementsByName('quanco');
+        
+       
+        // **************************************************
+        // ------- Hàm KIỂM TRA LƯỢT ĐI ----------
+        function kiemtraluotdi() {   
+
+            for (var i = 0, length = quanco.length; i < length;i++) {
+                if (quanco[i].checked) {
+                    var luachon = quanco[i].value;
+                    return luachon;
+                }
+            }
+
+            
+        }
+        // ////////////////////////////////////////////////////
+
+        // ***************************************************
+        // Quay số xí ngầu ***********************************
+        
+
+        var nutxingau = document.getElementById('0');
+
+        nutxingau.onclick = function() {
+
+            var mauto = '';
+            var k, ochuong;
+
+            switch (mauchoi) {
+                    case ('mauv') :
+                        mauto = 'yellow';
+                        ox = 0;
+                        break;
+                    case ('maud') :
+                        mauto = 'red';
+                        ox = 1;
+                        break;
+                    case ('mauxd') :
+                        mauto = 'blue';
+                        ox = 2;
+                        break;
+                    case ('mauxl') :
+                        mauto = 'green';
+                        ox = 3;
+                        break;
+                }
+
+            diduoc = 1;
+            
+            if (a==0 || x==0) {
+                var d = sonut();
+            }
+            
+            if (a==0) {
+
+                // -> Lần quay xí ngầu đầu tiên khi load game
+
+                myvar = setInterval(quayxingau,20);
+
+                a = 1;
+                x = 1;
+                xluotdi = 0;
+
+                quanco[0].checked = true;
+                
+                document.getElementById(mauto).style.border = '2px solid '+ mauto;
+                document.getElementById(mauto).style.backgroundColor = '#17181a';
+                document.getElementById(mauto).style.boxShadow = '0 0 8px '+ mauto;
+                document.getElementById(0).style.boxShadow = '0 0 8px '+ mauto;
+                
+            } else {
+
+                if (x==0) {
+                    
+                    myvar = setInterval(quayxingau,20);
+                    x=1;
+  
+                } else {
+                    
+                    clearInterval(myvar);
+                    x=0;
+                    
+                }
+                
+               
+            }  
+
+            
+            if (d!=1 && d!=6 && d!= 0 && d!=undefined) {
+                    
+                for (var z = 0; z<so;z++) {
+                        
+                    if (quanco[z].checked == true) {
+                        quanco[z].checked=false;
+
+                        k = quanco[z].value; ///-> y,b,r,g
+                        ochuong = tracuu(k)[0];
+
+                            
+                        document.getElementById(ochuong).style.backgroundColor = '#0b0c0e';
+                        document.getElementById(ochuong).style.border = 'none';
+                            
+                        if (z==(so-1)) {
+                            z=z-so;
+                        }
+                            
+                        k = quanco[z+1].value;
+                        ochuong = tracuu(k)[0];
+                        quanco[z+1].checked= true;
+
+                        document.getElementById('0').style.boxShadow = '0 0 8px '+ochuong;
+                        document.getElementById(ochuong).style.backgroundColor = '#17181a';
+                        document.getElementById(ochuong).style.border = '2px solid '+ ochuong;
+                            
+                        break;
+                            
+                    }
+                }
+
+                // Sau khi load màu chuyển lượt quay thì +1 cho xluotdi
+                xluotdi = ((+(xluotdi))+1);
+                
+                if (xluotdi == tracuukhac(nguoichoi)[0]) {
+                    xluotdi = xluotdi-tracuukhac(nguoichoi)[0];
+                }
+            }
+            save();
+            
+        }
+        
+        function quayxingau() {
+            var diem = Math.floor(Math.random() *6 +1);
+            
+            document.getElementById('xingau').innerText = diem;
+        }
+
+        function sonut() {
+            var diem = document.getElementById('xingau').innerText;
+            return diem;
+        }
+        // ***************************************************
+        // ***************************************************
+
+        //********************************************** */
+        // ------ FUNCTION Tra cứu ---------------------
+        function tracuu(giatri)  {
+
+            mau = "";
+            tenchuong = "";
+            chuongve = "";
+            min = '';
+            max = '';
+            ochuong = '';
+
+            switch (giatri) {
+                case ('y') :
+                    mau = 'yellow';
+                    tenchuong = chuongvang;
+                    chuongve = vechuongvang;
+                    max = 56;
+                    min = 1;
+                    ochuong = 561;
+                    break;
+                case ('r') :
+                    mau = 'red';
+                    tenchuong = chuongdo;
+                    chuongve = vechuongdo;
+                    max = 42;
+                    min = 43;
+                    ochuong = 421;
+                    break;
+                case ('b') :
+                    mau = 'blue';
+                    tenchuong = chuongxanhduong;
+                    chuongve = vechuongxanhduong;
+                    max = 28;
+                    min = 29;
+                    ochuong = 281;
+                    break;
+                case ('g') :
+                    mau = 'green';
+                    tenchuong = chuongxanhla;
+                    chuongve = vechuongxanhla;
+                    max = 14;
+                    min = 15;
+                    ochuong = 141;
+                    break;
+                
+                case (0):
+                    mau = 'white';
+                    tenchuong = '';
+                    chuongve = '';
+                    min = -1;
+                    max = -1;
+                    ochuong = 0;
+                    break;
+            }
+
+            return [mau,tenchuong,chuongve,max,min,ochuong];
+        }
+        // ***************************************************
+        // ***************************************************
+        
+
+        function tracuukhac(giatri) {
+            
+            switch (giatri) {
+                case ('so1') :
+                    so = 1;
+                    break;
+                case ('so2') :
+                    so = 2;
+                    break;
+                case ('so3') :
+                    so = 3;
+                    break;
+                case ('so4') :
+                    so = 4;
+                    break;
+                case ('mauv') :
+                    sob = 1;
+                    break;
+                case ('maud') :
+                    sob = 2;
+                    break;
+                case ('mauxd') :
+                    sob = 4;
+                    break;
+                case ('mauxl') :
+                    sob = 3;
+                    break;
+            }
+
+            return [so,sob];
+        }
+
+
+        //********************************************** */
+        // ------ FUNCTION Tra cứu ---------------------
+        function timmau(x) {
+
+            var ketqua = "";
+
+            var k1 = x.slice(0,1); // x = y1 => k1 = y
+            var k2 = x.slice(1,2); // x = y1 => k2 = 1
+
+            if (x >0 && x < 57) {
+                ketqua = bando[(x-1)];
+            } 
+            
+            if (x >140 && x < 147) {
+                ketqua = tracuu('g')[2][(x-141)];
+               
+            } 
+
+            if (x >280 && x < 287) {
+                ketqua = tracuu('b')[2][(x-281)];
+               
+            } 
+
+            if (x >420 && x < 427) {
+                ketqua = tracuu('r')[2][(x-421)];
+               
+            } 
+
+            if (x >560 && x < 567) {
+                ketqua = tracuu('y')[2][(x-561)];
+            }   
+            
+            if (kiemtrachuoi(k1) == false) {
+
+                
+                var tenchuong = tracuu(k1)[1];
+
+                ketqua = tenchuong[(k2-1)];
+
+            }
+            
+
+            return ketqua;
+
+        }
+        //------------------------------------------------
+
+        //************************************************** */
+        // ------ FUNCTION kiểm tra kí tự là chuỗi hay số -----
+        // -- Trả về TRUE nếu là số
+        // -- Trả về FALSE nếu là chuỗi
+        function kiemtrachuoi(chuoi) {
+            return chuoi >= '0' && chuoi <='9';
+        }
+        // ----------------------------------------------------
+
+
+        //********************************************** */
+        // ------ FUNCTION Vẽ toản bản đồ cờ -------------
+        function vebando() {
+            for (var i = 0; i<56;i++) {
+                var j = i+1;
+                var mau = tracuu(bando[i])[0];
+
+                if (mau == 'white') {
+                    mau='#0b0c0e';
+                }
+                tomau(j,mau);
+            }
+
+            
+        }
+        // ***************************************************
+      
+
+
+        
+        //********************************************** */
+        // ------ FUNCTION Vẽ 4 chuồng -------------
+        function vechuong() {
+            
+            // Vi tri Id quan co trong chuồng có dạn
+            // y1, y2, y3, y4
+            // r1, r2, r3, r4 .....
+            var mau = "";
+            var chuong = '';
+            var chuongve = "";
+            var id = 0;
+
+            for (var m=0,k=doichoi.length;m<k;m++) {
+
+                
+                
+                for (var i=0;i<4;i++) {
+                    chuong = tracuu(doichoi[m])[1];
+                    
+                    mau = tracuu(chuong[i])[0];
+                    
+                    
+                    id = doichoi[m]+(i+1); //-> Ghép y & (i+1) => y1
+                    if (mau == 'white') {
+                        mau ='#0b0c0e';
+                        
+                    }
+                    tomau(id,mau);
+                }
+
+                for (var i=0;i<6;i++) {
+                    chuong = tracuu(doichoi[m])[2];
+
+                    mau = tracuu(chuong[i])[0];
+                    
+                    ochuong = +(tracuu(doichoi[m])[5]);
+                    id = ochuong+i;
+                    if (mau == 'white') {
+                        mau ='#0b0c0e';
+                        
+                    }
+                    tomau(id,mau);
+                }
+            }
+
+        }
+        // ***************************************************
+        
+        //********************************************** */
+        // ------ FUNCTION TÔ MÀU cho Id truyền vào -------------
+        function tomau(vitri,mau) {
+            
+            
+            document.getElementById(vitri).style.backgroundColor = mau;
+        }
+        // ***************************************************
+       
+
+        
+        
+        function choi(id) {
+
+            
+
+            // x => Vị trí đối tượng khi click
+            var x = id;
+
+
+            // m => Màu của đối tượng
+            // Dựa vào vị trí dùng function timmau()
+            var m = timmau(x);
+
+            // d => Điểm quay xúc sắc
+            var d = +(sonut());
+
+            
+                var ketqua = kiemtradiduoc(x,m,d);
+            
+                if (diduoc ==1)     {
+                    if (x !=null && x !='' ) {
+
+                        if (kiemtraluotdi() == m) {
+                            
+                            
+                            switch (ketqua) {
+                                case ('xuatchuong') :
+                                    dichuyenquanco(0,x,m,d);
+                                    
+                                    break;
+                                case ('diduoc') :
+                                   
+                                    if (kiemtravatcan(x,m,d)== 'diduoc') {
+                                        dichuyenquanco(1,x,m,d);
+                                        
+                                    } else if (kiemtravatcan(x,m,d)== 'bida') {
+                                        dichuyenquanco(2,x,m,d);
+                                    }
+                                    
+                                    break;
+                                case ('ngaychuong') :
+                                    
+                                    if (kiemtrachitiet(x,m,d)=='diduoc') {
+                                        dichuyenquanco(3,x,m,d);
+                                    }
+                                    
+                                    break;
+                                case ('khongdiduoc') :
+                                    
+                                    break;
+                            }
+                        }
+                        
+                    }
+                        
+                }
+                save();
+        }
+    
+
+
+        // *****************************************
+        // ----- Funtion DICHUYENQUANCO --------
+        // <1> Thay đổi vị trí trong bản đồ
+        //     Xoá vị trí củ
+        function dichuyenquanco(c,x,m,d) {
+
+        
+            if (d>0) { // Quay xi ngầu xong mới đi được
+                if (c == 0) {
+
+                    // Xuat chuong
+                    // x=y4   m=y   d=1;
+                    
+                    // Lay ki tu sau id
+                    var i = x.slice(1,2);
+
+                    // Ten chuồng của ô xuất phát
+                    var tenmang = tracuu(m)[1];
+                    tenmang[(i-1)] = 0; // Xoá vị trí đó thành 0
+
+                    // Lấy vị trí ô xuất phát tượng ứng với màu
+                    var oxuatphat = +(tracuu(m)[4])-1;
+                    // Lấy màu tại vị trí đó
+                    var mau = bando[oxuatphat];
+                    //
+                    var tenchuong = tracuu(mau)[1];
+                    // => Đưa quân cờ tại vị trí xuất phát về chuồng
+                    for (var j=0;j<4;j++) {
+                        if (tenchuong[j]==0) {
+                            tenchuong[j] = mau;
+                            break;
+                        }
+                    }
+
+                    // Cap nhat vi tri tren ban do
+                    bando[oxuatphat] = m;
+
+                    
+
+                }
+
+                if (c==1 || c==2) {
+
+                    var i = (+(x))-1;
+                    var j = (+(x))+(+(d))-1;
+                    if (j>56) {
+                        j = j-56;
+                    }
+                    if (c==2) {
+                        // -------------
+                        // Cập nhập về chuồng
+                        var tenchuong = tracuu(bando[j])[1];
+                        var mau = bando[j];
+                        
+                        for (var k=0;k<4;k++) {
+                            if (tenchuong[k]==0) {
+                                tenchuong[k] = mau;
+                                break;
+                            }
+                        }
+
+                        
+                    }
+
+                    bando[i] = 0;
+                    bando[j] = m;
+            
+
+                    var tenchuongve = tracuu(m)[2];
+                    var ochuong = tracuu(m)[5];
+                    var b = (+(x))-ochuong;
+                    var a = b+d;
+                    tenchuongve[b]=1;
+                    tenchuongve[a]=m;
+
+                }
+
+                if (c==3) {
+                    // Bắt đầu di chuyển vào chuồng
+                    var tenchuongve = tracuu(m)[2];
+                    // Gọi biến i là vị trí ngay đầu chuồng = 0
+                    var i = -1; 
+                    // Bắt đầu cộng nút xúc xắc
+                    var j = i+(+(d));  // Vị trí đi tới được trong chuồng về
+
+                    //tenchuongve[j]
+                    tenchuongve[j] = m;
+                    bando[(+(x))-1] = 0;
+                    console.log(vechuongxanhla);
+                    
+
+
+                }
+                
+                diduoc = 0;
+                vebando();
+                vechuong();   
+                
+            }
+        }
+        // -------------------------------------------------------
+
+
+        // *******************************************************
+        // ----- Kiểm tra xem vị trí + điểm xí ngầu có đi quá quy định 
+        // Vd khi ô vàng ở vị trí 55 + điểm 2 => 57
+        // Quá giới hạn bàn cờ là 56 => không đi được
+        // Nếu VÀNG đang ở ô 56 thì đang ở vị trí về chuồng
+        // Còn lại đều đi được
+        // -------------------------------------------------------
+        function kiemtradiduoc(x,m,d) {
+
+            var k1 = x.slice(0,1); // x = y1 => k1 = y
+            var ketqua = '';
+
+            var i = +((+(x))+(+(d)));
+
+            
+
+            var max = tracuu(m)[3];
+            
+            
+            if (i > max && (x>(max-7) && x<(max+1))) {
+                ketqua = 'khongdiduoc';
+            } else {
+                ketqua = 'diduoc';
+            }
+            if (x == max) {
+                ketqua = 'ngaychuong';
+            }
+
+            if (kiemtrachuoi(k1)== false) { // Kí tự đầu là chuỗi
+                if (d == 1 || d == 6) {
+                    ketqua = 'xuatchuong';
+                } else {
+                    ketqua = 'khongdiduoc';
+                }
+            }
+
+            return ketqua;
+
+
+        }
+        // -------------------------------------------------------
+        
+    
+        // *********************************************************
+        // ----- Kiểm tra xem có vật cản trong khoảng điểm quay được không
+        // ---------------------------------------------------------
+        function kiemtravatcan(x,m,d) {
+
+            var k1 = x.slice(0,1);
+
+            var ketqua = "";
+
+            var id = [];
+            
+            
+            if (kiemtrachuoi(k1) == false) {
+
+                // Kí tự đầu là chuỗi
+                // Đang chọn quân trong ô xuât phát
+                // --- Đang trong chuồng xuất phát
+                // Quay được 1 || 6 -> Đi được
+                // Kiểm tra xem ô xuất phát có vật cản không
+                // Nếu có -> xem cùng màu hay khác màu
+                // Cùng màu -> Bị cản
+                // Khác màu -> Bị đá
+
+                var oxuatphat = +(tracuu(k1)[4]);
+
+                var maua = k1;
+                var maub = bando[oxuatphat-1];
+
+                if (maub != 0) {
+                    if (maua == maub) {
+                        ketqua = "bican";
+                    } else {
+                        ketqua = 'bida';
+                    }
+                } else {
+                    ketqua = 'diduoc';
+                }
+            } else {
+
+                // ------- Vị trí + số nút --------
+                var j = +((+(x))+(+(d)));
+                // -------- Kí tự đầu là số -----------
+
+                // ***********************************************
+                // ---------- Từ 1 -> 56 ==> Trong bàn cờ
+                if ((x > 0) && ( x < 57)) {
+                    if (j>56) {
+
+                        if (x==56) {
+                            ketqua = 'diduoc';
+                        } else {
+
+                        
+                            for (var i=x;i<56;i++) {
+                                if (bando[i]!= 0) { // #0 nghĩa là có vật cản
+                                    id.push(i,bando[i]);
+                                    ketqua = 'bican';
+                                    break;
+                                } else {
+                                    ketqua = 'diduoc';
+                                }
+                            }
+                        }
+                        
+                        
+                    }
+                    
+                    if (j>56 && ketqua =='diduoc') {
+                        for (var i=0;i<(j-56);i++) {
+                            if (bando[i]!= 0) { // #0 nghĩa là có vật cản
+                                id.push(i,bando[i]);
+                                ketqua = 'bican';
+                                break;
+                            } else {
+                                ketqua = 'diduoc';
+                            }
+                        }
+                        
+                    }
+                    if (j<=56) {
+                        for (var i=x;i<j;i++) {
+                            
+                            if (bando[i]!= 0) { // #0 nghĩa là có vật cản
+                                id.push(i,bando[i]);
+                                ketqua = 'bican';
+                                break;
+                            } else {
+                                ketqua = 'diduoc';
+                            }
+                            
+                        }
+                    }
+                }
+                
+                
+                // -------------------------------------------
+                // ***********************************************
+
+
+                if (ketqua=='bican') {
+                    // --------------
+                    // Kiểm tra xem vị trí vật cản
+                    // Và vị trí cuối cùng khi quay được xúc xắc
+                    // Nếu trùng nhau thì trả kết quả
+                    // Bị đá
+                    // Ngược lại -> Bị cản
+                    // --------------------------------
+                    
+                    j = j-1; // -> Vị trí thực tế trong mảng
+
+                    // So sánh nếu cùng vị trí
+                    if ((j == id[0])) {
+                        if (bando[j] != bando[(x-1)]) { // -> Cùng màu
+                            // -----> Bị cản không đi được
+                            ketqua = 'bida';
+                        }
+                    }  
+                    
+                    
+                }
+                
+                // ***********************************************
+                // ----------- Trong chuồng --------------
+                if ((x > 140) && (x < 147) || (x==14 && m=='g')) {
+                    ketqua = kiemtrachitiet(x,m,d); // <1> Xanh lá
+                }
+                if ((x > 280) && (x < 287) || (x==28 && m=='b')) {
+                    ketqua = kiemtrachitiet(x,m,d); // <2> Xanh dương
+                }
+                if ((x > 420) && (x < 427) || (x==42 && m=='r')) {
+                    ketqua = kiemtrachitiet(x,m,d); // <3> Đỏ
+                }
+                if ((x > 560) && (x < 567) || (x==56 && m=='y')) {
+                    ketqua = kiemtrachitiet(x,m,d); // <4> Vàng
+                }
+                
+
+ 
+            }
+            return ketqua;
+            
+        }
+        
+        // *************************************************
+        // ----- Kiểm tra vị trí trong chuồng --------------
+        function kiemtrachitiet(x,m,d) {
+        
+            if (x==14 || x==28 || x==42 || x==56) {
+                x = x*10;
+            }
+            
+            var id = [];
+            var ketqua = '';
+            var ochuong = +(tracuu(m)[5]);
+            var x = x - ochuong + 1;
+
+            var tenchuong = tracuu(m)[2];
+
+            
+            var j = +((+(x))+(+(d)));
+
+            
+            for (x;x<j;x++) {
+                        
+                if (tenchuong[x]!= 1) { // #0 nghĩa là có vật cản
+                    id.push(x,tenchuong[x]);
+                    ketqua = 'bican';
+                    break;
+                } else {
+                    ketqua = 'diduoc';
+                }
+                        
+            }
+            
+            return ketqua;
+        }
+        // -------------------------------------------------------
+
+        var bt = document.getElementById('bt');
+        bt.onclick = function() {
+
+            if (mauchoi ==0) {
+                alert('Chưa chọn màu chơi');
+                return false;
+            }
+            if (nguoichoi ==0) {
+                alert('Chưa chọn người chơi');
+                return false;
+            }
+            document.getElementById('form').style.display = 'none';
+
+            loaddata(mauchoi,nguoichoi);
+            
+            
+            
+            vechuong();
+            vebando();
+        }
+ 
+        function chonmau(id) {
+            mauchoi = id;
+            var mauchoia = ['mauv','maud','mauxl','mauxd'];
+
+            for (i=0;i<4;i++) {
+                if (mauchoia[i] == mauchoi) {
+                    document.getElementById(id).style.boxShadow = '0 0 15px white';
+                    
+                } else {
+                    document.getElementById(mauchoia[i]).style.boxShadow = 'none';
+                }
+            }
+        }
+
+   
+        function chonnguoi(id) {
+            
+            nguoichoi = id;
+           
+            var nguoichoia = ['so1','so2','so3','so4'];
+
+            for (i=0;i<4;i++) {
+                if (nguoichoia[i] == nguoichoi) {
+                    document.getElementById(id).style.boxShadow = '0 0 15px white';
+                    
+                } else {
+                    document.getElementById(nguoichoia[i]).style.boxShadow = 'none';
+                }
+            }
+
+        }
+
+        function loaddata(mc,nc,ld) {
+
+
+            //tracuukhac()[0][1] 0 Nguoi choi 1 Mau choi
+            var lbfor = ['yellow','red','green','blue'];
+            var rdvalue = ['y','r','g','b'];
+            var lbv = ['Vàng','Đỏ','Xanh lá','Xanh dương'];
+
+            so = tracuukhac(nc)[0];
+            sob = tracuukhac(mc)[1];
+
+            var output = '';
+            
+            for (var i=(sob-1);i<(sob+so-1);i++) {
+                var h = i;
+                
+                if (h>=4) {
+                    h = h-4;
+                    
+                }
+                output += "<input type='radio' name='quanco' id='"+rdvalue[h]+"' value='"+rdvalue[h]+"'><lable for='"+lbfor[h]+"' style='color: "+lbfor[h]+";'>"+lbv[h]+"</lable>";
+                doichoi.push(rdvalue[h]);
+
+            }
+
+            var l=0;
+
+            for (var i =0;i<4;i++)     {
+                for (var j=0,k=doichoi.length;j<k;j++) {
+                    if (rdvalue[i]!=doichoi[j]) {
+                        l+=1;
+                        
+                    }
+                }
+                if (l==doichoi.length) {
+                    doiconlai.push(rdvalue[i]);
+                }
+                l=0;
+            }
+            
+            
+
+            document.getElementById('luotdi').innerHTML = output;
+
+            
+
+            for (var i = 0;i<(4-so);i++) {
+                var divmau = tracuu(doiconlai[i])[0];
+                
+                
+
+                document.getElementById(divmau).style.boxShadow = '0 0 8px white';
+                for (var j=1;j<5;j++) {
+                    var divquanco = doiconlai[i]+j;
+                    document.getElementById(divquanco).style.backgroundColor = 'grey';
+                    document.getElementById(divquanco).style.border = '2px solid gray';
+
+                }
+            }
+
+            for (var i = 0; i<(so);i++) {
+                var machuong = doichoi[i]; // -> y || b
+                // -> Lấy tên chuồng từ doichoi [y,b];
+                var tenchuong = tracuu(doichoi[i])[1];
+                // -> Duyệt 4 phan tử trong tenchuong để tô màu lên
+                for (var k = 0;k<4;k++) {
+                    //-> từ tên chuồng tra cứu ra màu
+                    var maub = tracuu(tenchuong[k])[0];
+                    if (maub == 'white') {
+                        maub = '#17181a';
+                    }
+                    tomau((machuong+(k+1)),maub);
+                }
+            }
+            
+
+            if (ld !== null) {
+                quanco[ld].checked = true;
+                var divmau = tracuu(doichoi[ld])[0];
+                document.getElementById(divmau).style.backgroundColor = '#17181a';
+                document.getElementById(divmau).style.border = '2px solid '+ tracuu(doichoi[ld])[0];
+                
+            }
+        }
+
+        window.onload = function() {
+
+            // If sessionStorage is storing default values (ex. name), exit the function and do not restore data
+            if (sessionStorage.getItem('x') == "x") {
+                return;
+            }
+            if (sessionStorage.getItem('bando') == "bando") {
+                return;
+            }
+            if (sessionStorage.getItem('mauchoi') == "mauchoi") {
+                return;
+            }
+            if (sessionStorage.getItem('nguoichoi') == "nguoichoi") {
+                return;
+            }
+            if (sessionStorage.getItem('xluotdi') == "xluotdi") {
+                return;
+            }
+
+            if (sessionStorage.getItem('cxl') == "cxl") {
+                return;
+            }
+
+            if (sessionStorage.getItem('cxd') == "cxd") {
+                return;
+            }
+            if (sessionStorage.getItem('cd') == "cd") {
+                return;
+            }
+            if (sessionStorage.getItem('cv') == "cv") {
+                return;
+            }
+
+            if (sessionStorage.getItem('vcxl') == "vcxl") {
+                return;
+            }
+
+            if (sessionStorage.getItem('vcxd') == "vcxd") {
+                return;
+            }
+            if (sessionStorage.getItem('vcd') == "vcd") {
+                return;
+            }
+            if (sessionStorage.getItem('vcv') == "vcv") {
+                return;
+            }
+
+            // If values are not blank, restore them to the fields
+            x = sessionStorage.getItem('x');
+            bando = sessionStorage.getItem('bando').split(',');
+            mauchoi = sessionStorage.getItem('mauchoi');
+            nguoichoi = sessionStorage.getItem('nguoichoi');
+            luotdi = sessionStorage.getItem('xluotdi');
+            xluotdi = luotdi;
+
+            chuongxanhla = sessionStorage.getItem('cxl').split(',');
+            chuongxanhduong = sessionStorage.getItem('cxd').split(',');
+            chuongvang = sessionStorage.getItem('cv').split(',');
+            chuongdo = sessionStorage.getItem('cd').split(',');
+
+            vechuongxanhla = sessionStorage.getItem('vcxl').split(',');
+            vechuongxanhduong = sessionStorage.getItem('vcxd').split(',');
+            vechuongvang = sessionStorage.getItem('vcv').split(',');
+            vechuongdo = sessionStorage.getItem('vcd').split(',');
+            
+            if (x !== null) {
+                loaddata(mauchoi,nguoichoi,luotdi);
+                document.getElementById('form').style.display = 'none';
+                a=1;
+                x=0;
+                vebando();
+                vechuong();
+                
+            } else {
+                document.getElementById('form').style.display = 'block';
+                a = 0;
+            }
+            
+            
+        }
+
+
+        function save() {
+            sessionStorage.setItem("x", 1);
+            sessionStorage.setItem("bando", bando);
+            sessionStorage.setItem("mauchoi", mauchoi);
+            sessionStorage.setItem("nguoichoi", nguoichoi);
+            sessionStorage.setItem("xluotdi", xluotdi);
+            sessionStorage.setItem("cxl", chuongxanhla);
+            sessionStorage.setItem("cd", chuongdo);
+            sessionStorage.setItem("cv", chuongvang);
+            sessionStorage.setItem("cxd", chuongxanhduong);
+            sessionStorage.setItem("vcxl", vechuongxanhla);
+            sessionStorage.setItem("vcd", vechuongdo);
+            sessionStorage.setItem("vcv", vechuongvang);
+            sessionStorage.setItem("vcxd", vechuongxanhduong);
+        }
+        
+
+        function choilai() {
+            sessionStorage.clear();
+            location.reload();
+        }
+    </script>
+
+
+
+    </body>
+</html>
